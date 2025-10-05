@@ -1,4 +1,6 @@
 const express = require("express");
+const cors = require("cors");
+const eventsData = require("./Data/events.js");
 
 const app = express();
 const port = 3000;
