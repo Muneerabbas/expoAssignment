@@ -1,31 +1,40 @@
 import React, { useEffect, useState } from "react";
 import { View, Text, FlatList, Image, StyleSheet } from "react-native";
 import { useFonts } from "expo-font";
-
-const events = [
-  {
-    id: "1",
-    title: "Pritish Narula Comedy Show",
-    date: "2025-11-15",
-    time: "19:00",
-    location: "Mumbai, India",
-    price: 799,
-    image: "https://placehold.co/300x200?text=Comedy",
-  },
-  {
-    id: "2",
-    title: "TechFest Pune",
-    date: "2025-12-01",
-    time: "10:00",
-    location: "Pune, India",
-    price: 499,
-    image: "https://placehold.co/300x200?text=TechFest",
-  },
-];
+import { StatusBar } from "expo-status-bar";
+import { SafeAreaView } from "react-native-safe-area-context";
+import Ionicons from "react-native-vector-icons/Ionicons";
+// const events = [
+//   {
+//     id: "1",
+//     title: "Pritish Narula Comedy Show",
+//     date: "2025-11-15",
+//     time: "19:00",
+//     location: "Mumbai, India",
+//     price: 799,
+//     image: "https://placehold.co/300x200?text=Comedy",
+//   },
+//   {
+//     id: "2",
+//     title: "TechFest Pune",
+//     date: "2025-12-01",
+//     time: "10:00",
+//     location: "Pune, India",
+//     price: 499,
+//     image: "https://placehold.co/300x200?text=TechFest",
+//   },
+// ];
 
 const EventCard = ({ item }) => (
   <View style={styles.card}>
-    <Image source={{ uri: item?.image }} style={styles.image} />
+    <Image
+      source={{
+        uri:
+          item.posterUrl ||
+          "https://img.freepik.com/free-photo/closeup-scarlet-macaw-from-side-view-scarlet-macaw-closeup-head_488145-3540.jpg?semt=ais_hybrid&w=740&q=80",
+      }}
+      style={styles.image}
+    />
     <Text style={styles.title}>{item?.title}</Text>
     <Text style={styles.text}>
       {item?.date} · {item?.time}
@@ -36,19 +45,53 @@ const EventCard = ({ item }) => (
 );
 
 export default function RootLayout() {
+  const [events, setEvents] = useState([]);
+
+  const fetchEvents = async () => {
+    try {
+      const response = await fetch(
+        "https://0b1dae22843e.ngrok-free.app/api/events"
+      );
+      const jsondata = await response.json();
+      if (jsondata.success) {
+        setEvents(jsondata.data);
+        console.log(jsondata.data);
+      } else {
+        console.error("Failed to fetch events");
+      }
+    } catch (error) {
+      console.error("Error fetching events:", error);
+    }
+  };
+
+  useEffect(() => {
+    fetchEvents();
+  }, []);
+
   const [fontsLoaded, fontError] = useFonts({
     "Poppins-Regular": require("../assets/fonts/Poppins-Regular.ttf"),
     "Poppins-Bold": require("../assets/fonts/Poppins-Bold.ttf"),
   });
   return (
-    <View style={styles.container}>
-      <FlatList
-        data={events}
-        keyExtractor={(item) => item.id}
-        renderItem={({ item = {} }) => <EventCard item={item} />}
-        showsVerticalScrollIndicator={false}
-      />
-    </View>
+    <SafeAreaView style={{ flex: 1 }}>
+      <View style={styles.container}>
+        <StatusBar style="dark" />
+
+        <View style={styles.header}>
+          <Text style={styles.headerText}>Upcoming Events</Text>
+          <View style={{ flexDirection: "row", gap: 16 }}>
+            <Ionicons name="search" size={24} color="#000" />
+            <Ionicons name="filter" size={24} color="#000" />
+          </View>
+        </View>
+        <FlatList
+          data={events}
+          keyExtractor={(item) => item.id}
+          renderItem={({ item = {} }) => <EventCard item={item} />}
+          showsVerticalScrollIndicator={false}
+        />
+      </View>
+    </SafeAreaView>
   );
 }
 
@@ -83,6 +126,16 @@ const styles = StyleSheet.create({
     marginTop: 8,
     fontSize: 15,
     color: "#5B338D",
+    fontFamily: "Poppins-Bold",
+  },
+  header: {
+    marginBottom: 16,
+    flexDirection: "row",
+    justifyContent: "space-between",
+    alignItems: "center",
+  },
+  headerText: {
+    fontSize: 24,
     fontFamily: "Poppins-Bold",
   },
 });

@@ -10,8 +10,7 @@ const DUMMY_EVENTS = [
     location: "Pune, India",
     category: "Music",
     price: 2499,
-    posterUrl:
-      "https://images.unsplash.com/photo-1514525253161-7a46d19cd819?auto=format&fit=crop&w=800&q=60",
+    posterUrl: "https://placehold.co/300x200?text=Music",
     organizer: "Sunburn Events",
     availableSeats: 5000,
   },
@@ -26,8 +25,7 @@ const DUMMY_EVENTS = [
     location: "Pune, India",
     category: "Business",
     price: 999,
-    posterUrl:
-      "https://images.unsplash.com/photo-1556761175-b413da4baf72?auto=format&fit=crop&w=800&q=60",
+    posterUrl: "https://placehold.co/300x200?text=Business",
     organizer: "Pune Startups Inc.",
     availableSeats: 300,
   },
@@ -42,8 +40,7 @@ const DUMMY_EVENTS = [
     location: "Pune, India",
     category: "Food & Drink",
     price: 300,
-    posterUrl:
-      "https://images.unsplash.com/photo-1555939594-58d7cb561ad1?auto=format&fit=crop&w=800&q=60",
+    posterUrl: "https://placehold.co/300x200?text=Food",
     organizer: "Foodie's Paradise",
     availableSeats: 1500,
   },
@@ -58,8 +55,7 @@ const DUMMY_EVENTS = [
     location: "Pune, India",
     category: "Workshop",
     price: 799,
-    posterUrl:
-      "https://images.unsplash.com/photo-1549692520-acc6669e2f0c?auto=format&fit=crop&w=800&q=60",
+    posterUrl: "https://placehold.co/300x200?text=Workshop",
     organizer: "DevMasters Academy",
     availableSeats: 40,
   },
@@ -74,8 +70,7 @@ const DUMMY_EVENTS = [
     location: "Pune, India",
     category: "Comedy",
     price: 499,
-    posterUrl:
-      "https://images.unsplash.com/photo-1594968923832-7741b9d44c4b?auto=format&fit=crop&w=800&q=60",
+    posterUrl: "https://placehold.co/300x200?text=Comedy",
     organizer: "LOL Factory",
     availableSeats: 500,
   },
@@ -90,8 +85,7 @@ const DUMMY_EVENTS = [
     location: "Pune, India",
     category: "Sports",
     price: 0,
-    posterUrl:
-      "https://images.unsplash.com/photo-1571019613454-1cb2f99b2d8b?auto=format&fit=crop&w=800&q=60",
+    posterUrl: "https://placehold.co/300x200?text=Sports",
     organizer: "Pune Runners Club",
     availableSeats: 10000,
   },
@@ -106,8 +100,7 @@ const DUMMY_EVENTS = [
     location: "Pune, India",
     category: "Dance",
     price: 1200,
-    posterUrl:
-      "https://images.unsplash.com/photo-1557008172-8a71957cab3a?auto=format&fit=crop&w=800&q=60",
+    posterUrl: "https://placehold.co/300x200?text=Dance",
     organizer: "Vibe & Flow",
     availableSeats: 100,
   },
@@ -122,8 +115,7 @@ const DUMMY_EVENTS = [
     location: "Pune, India",
     category: "Wellness",
     price: 7500,
-    posterUrl:
-      "https://images.unsplash.com/photo-1544367567-0f2fcb009e0b?auto=format&fit=crop&w=800&q=60",
+    posterUrl: "https://placehold.co/300x200?text=Wellness",
     organizer: "ZenLife",
     availableSeats: 30,
   },
@@ -138,8 +130,7 @@ const DUMMY_EVENTS = [
     location: "Pune, India",
     category: "Technology",
     price: 1499,
-    posterUrl:
-      "https://images.unsplash.com/photo-1526628953301-3e589a6a8b74?auto=format&fit=crop&w=800&q=60",
+    posterUrl: "https://placehold.co/300x200?text=Technology",
     organizer: "TechVisionary",
     availableSeats: 400,
   },
@@ -154,8 +145,7 @@ const DUMMY_EVENTS = [
     location: "Pune, India",
     category: "Family",
     price: 250,
-    posterUrl:
-      "https://images.unsplash.com/photo-1517457373958-75c0a95166b7?auto=format&fit=crop&w=800&q=60",
+    posterUrl: "https://placehold.co/300x200?text=Family",
     organizer: "Wonder Years",
     availableSeats: 800,
   },
