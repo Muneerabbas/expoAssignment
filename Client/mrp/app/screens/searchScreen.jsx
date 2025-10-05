@@ -5,15 +5,16 @@ import {
   FlatList,
   Image,
   StyleSheet,
-  Touchable,
   TouchableOpacity,
   TextInput,
+  ActivityIndicator,
 } from "react-native";
 import { useFonts } from "expo-font";
 import { StatusBar } from "expo-status-bar";
 import { SafeAreaView } from "react-native-safe-area-context";
 import Ionicons from "react-native-vector-icons/Ionicons";
 import { useRouter } from "expo-router";
+
 const EventCard = ({ item }) => (
   <View style={styles.card}>
     <Image
@@ -37,9 +38,10 @@ export default function SearchScreen() {
   const router = useRouter();
   const [events, setEvents] = useState([]);
   const [searchItem, setSearchItem] = useState("");
-
+  const [isLoading, setIsLoading] = useState(false);
   const fetchEvents = async () => {
     try {
+      setIsLoading(true);
       const response = await fetch(
         `https://42edf75aa802.ngrok-free.app/api/events/search?q=${searchItem}`
       );
@@ -47,12 +49,16 @@ export default function SearchScreen() {
       if (jsondata.success) {
         setEvents(jsondata.data);
         console.log(jsondata.data);
+        setIsLoading(false);
         setSearchItem("");
       } else {
         console.error("Failed to fetch events");
+        alert("No events found");
+        setIsLoading(false);
       }
     } catch (error) {
       console.error("Error fetching events:", error);
+      setIsLoading(false);
     }
   };
 
@@ -90,12 +96,16 @@ export default function SearchScreen() {
             </TouchableOpacity> */}
           </View>
         </View>
-        <FlatList
-          data={events}
-          keyExtractor={(item) => item.id}
-          renderItem={({ item = {} }) => <EventCard item={item} />}
-          showsVerticalScrollIndicator={false}
-        />
+        {isLoading ? (
+          <ActivityIndicator size="large" color="#0000ff" />
+        ) : (
+          <FlatList
+            data={events}
+            keyExtractor={(item) => item.id}
+            renderItem={({ item = {} }) => <EventCard item={item} />}
+            showsVerticalScrollIndicator={false}
+          />
+        )}
       </View>
     </SafeAreaView>
   );
