@@ -1,30 +1,19 @@
 import React, { useEffect, useState } from "react";
-import { View, Text, FlatList, Image, StyleSheet } from "react-native";
+import {
+  View,
+  Text,
+  FlatList,
+  Image,
+  StyleSheet,
+  Touchable,
+  TouchableOpacity,
+  TextInput,
+} from "react-native";
 import { useFonts } from "expo-font";
 import { StatusBar } from "expo-status-bar";
 import { SafeAreaView } from "react-native-safe-area-context";
 import Ionicons from "react-native-vector-icons/Ionicons";
-// const events = [
-//   {
-//     id: "1",
-//     title: "Pritish Narula Comedy Show",
-//     date: "2025-11-15",
-//     time: "19:00",
-//     location: "Mumbai, India",
-//     price: 799,
-//     image: "https://placehold.co/300x200?text=Comedy",
-//   },
-//   {
-//     id: "2",
-//     title: "TechFest Pune",
-//     date: "2025-12-01",
-//     time: "10:00",
-//     location: "Pune, India",
-//     price: 499,
-//     image: "https://placehold.co/300x200?text=TechFest",
-//   },
-// ];
-
+import { useRouter } from "expo-router";
 const EventCard = ({ item }) => (
   <View style={styles.card}>
     <Image
@@ -44,18 +33,21 @@ const EventCard = ({ item }) => (
   </View>
 );
 
-export default function RootLayout() {
+export default function SearchScreen() {
+  const router = useRouter();
   const [events, setEvents] = useState([]);
+  const [searchItem, setSearchItem] = useState("");
 
   const fetchEvents = async () => {
     try {
       const response = await fetch(
-        "https://0b1dae22843e.ngrok-free.app/api/events"
+        `https://42edf75aa802.ngrok-free.app/api/events/search?q=${searchItem}`
       );
       const jsondata = await response.json();
       if (jsondata.success) {
         setEvents(jsondata.data);
         console.log(jsondata.data);
+        setSearchItem("");
       } else {
         console.error("Failed to fetch events");
       }
@@ -64,24 +56,38 @@ export default function RootLayout() {
     }
   };
 
-  useEffect(() => {
-    fetchEvents();
-  }, []);
+  //   useEffect(() => {
+  //     fetchEvents();
+  //   }, []);
 
   const [fontsLoaded, fontError] = useFonts({
-    "Poppins-Regular": require("../assets/fonts/Poppins-Regular.ttf"),
-    "Poppins-Bold": require("../assets/fonts/Poppins-Bold.ttf"),
+    "Poppins-Regular": require("../../assets/fonts/Poppins-Regular.ttf"),
+    "Poppins-Bold": require("../../assets/fonts/Poppins-Bold.ttf"),
   });
+  const handleSearchPress = async () => {
+    fetchEvents();
+  };
   return (
     <SafeAreaView style={{ flex: 1 }}>
       <View style={styles.container}>
         <StatusBar style="dark" />
 
         <View style={styles.header}>
-          <Text style={styles.headerText}>Upcoming Events</Text>
+          <TextInput
+            placeholder="Search events..."
+            value={searchItem}
+            onChangeText={setSearchItem}
+            style={styles.searchInput}
+          />
           <View style={{ flexDirection: "row", gap: 16 }}>
-            <Ionicons name="search" size={24} color="#000" />
-            <Ionicons name="filter" size={24} color="#000" />
+            <TouchableOpacity onPress={handleSearchPress}>
+              <Ionicons name="search" size={24} color="#000" />
+            </TouchableOpacity>
+            {/* <TouchableOpacity
+              onPress={() => router.push("/screens/filterScreen")}
+            >
+              <Ionicons name="filter" size={24} color="#000" />
+            </TouchableOpacity> */}
           </View>
         </View>
         <FlatList
@@ -99,6 +105,7 @@ const styles = StyleSheet.create({
   container: {
     flex: 1,
     padding: 16,
+    paddingTop: 0,
   },
   card: {
     backgroundColor: "#fff",
@@ -137,5 +144,15 @@ const styles = StyleSheet.create({
   headerText: {
     fontSize: 24,
     fontFamily: "Poppins-Bold",
+  },
+  searchInput: {
+    flex: 1,
+    borderWidth: 1,
+    borderColor: "#ccc",
+    borderRadius: 20,
+    fontFamily: "Poppins-Regular",
+    padding: 8,
+    fontSize: 14,
+    marginRight: 8,
   },
 });
