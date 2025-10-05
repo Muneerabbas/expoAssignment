@@ -14,24 +14,25 @@ import { StatusBar } from "expo-status-bar";
 import { SafeAreaView } from "react-native-safe-area-context";
 import Ionicons from "react-native-vector-icons/Ionicons";
 import { useRouter } from "expo-router";
+import { API_BASE_URL } from "../../config.js";
 
-const EventCard = ({ item }) => (
-  <View style={styles.card}>
-    <Image
-      source={{
-        uri:
-          item.posterUrl ||
-          "https://img.freepik.com/free-photo/closeup-scarlet-macaw-from-side-view-scarlet-macaw-closeup-head_488145-3540.jpg?semt=ais_hybrid&w=740&q=80",
-      }}
-      style={styles.image}
-    />
-    <Text style={styles.title}>{item?.title}</Text>
-    <Text style={styles.text}>
-      {item?.date} · {item?.time}
-    </Text>
-    <Text style={styles.text}>{item?.location}</Text>
-    <Text style={styles.price}>₹{item?.price}</Text>
-  </View>
+const EventCard = ({ item, onPress }) => (
+  <TouchableOpacity onPress={onPress}>
+    <View style={styles.card}>
+      <Image
+        source={{
+          uri: item.posterUrl,
+        }}
+        style={styles.image}
+      />
+      <Text style={styles.title}>{item?.title}</Text>
+      <Text style={styles.text}>
+        {item?.date} · {item?.time}
+      </Text>
+      <Text style={styles.text}>{item?.location}</Text>
+      <Text style={styles.price}>₹{item?.price}</Text>
+    </View>
+  </TouchableOpacity>
 );
 
 export default function SearchScreen() {
@@ -42,8 +43,9 @@ export default function SearchScreen() {
   const fetchEvents = async () => {
     try {
       setIsLoading(true);
+      setEvents([]);
       const response = await fetch(
-        `https://42edf75aa802.ngrok-free.app/api/events/search?q=${searchItem}`
+        `${API_BASE_URL}/api/events/search?q=${searchItem}`
       );
       const jsondata = await response.json();
       if (jsondata.success) {
@@ -52,19 +54,15 @@ export default function SearchScreen() {
         setIsLoading(false);
         setSearchItem("");
       } else {
-        console.error("Failed to fetch events");
+        // console.error("Failed to fetch events");
         alert("No events found");
         setIsLoading(false);
       }
     } catch (error) {
-      console.error("Error fetching events:", error);
+      //   console.error("Error fetching events:", error);
       setIsLoading(false);
     }
   };
-
-  //   useEffect(() => {
-  //     fetchEvents();
-  //   }, []);
 
   const [fontsLoaded, fontError] = useFonts({
     "Poppins-Regular": require("../../assets/fonts/Poppins-Regular.ttf"),
@@ -89,23 +87,28 @@ export default function SearchScreen() {
             <TouchableOpacity onPress={handleSearchPress}>
               <Ionicons name="search" size={24} color="#000" />
             </TouchableOpacity>
-            {/* <TouchableOpacity
-              onPress={() => router.push("/screens/filterScreen")}
-            >
-              <Ionicons name="filter" size={24} color="#000" />
-            </TouchableOpacity> */}
+          
           </View>
         </View>
-        {isLoading ? (
-          <ActivityIndicator size="large" color="#0000ff" />
-        ) : (
-          <FlatList
-            data={events}
-            keyExtractor={(item) => item.id}
-            renderItem={({ item = {} }) => <EventCard item={item} />}
-            showsVerticalScrollIndicator={false}
-          />
-        )}
+        <View style={{ flex: 1, justifyContent: "center" }}>
+          {isLoading ? (
+            <ActivityIndicator size="large" color="#5B338D" />
+          ) : (
+            <FlatList
+              data={events}
+              keyExtractor={(item) => item.id}
+              renderItem={({ item = {} }) => (
+                <EventCard
+                  item={item}
+                  onPress={() =>
+                    router.push(`/screens/detailsScreen?id=${item.id}`)
+                  }
+                />
+              )}
+              showsVerticalScrollIndicator={false}
+            />
+          )}
+        </View>
       </View>
     </SafeAreaView>
   );

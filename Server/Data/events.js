@@ -10,7 +10,8 @@ const DUMMY_EVENTS = [
     location: "Pune, India",
     category: "Music",
     price: 2499,
-    posterUrl: "https://placehold.co/300x200?text=Music",
+    posterUrl:
+      "https://media.istockphoto.com/id/814423752/photo/eye-of-model-with-colorful-art-make-up-close-up.jpg?s=612x612&w=0&k=20&c=l15OdMWjgCKycMMShP8UK94ELVlEGvt7GmB_esHWPYE=",
     organizer: "Sunburn Events",
     availableSeats: 5000,
   },
@@ -25,7 +26,8 @@ const DUMMY_EVENTS = [
     location: "Pune, India",
     category: "Business",
     price: 999,
-    posterUrl: "https://placehold.co/300x200?text=Business",
+    posterUrl:
+      "https://img.freepik.com/free-photo/closeup-scarlet-macaw-from-side-view-scarlet-macaw-closeup-head_488145-3540.jpg?semt=ais_hybrid&w=740&q=80",
     organizer: "Pune Startups Inc.",
     availableSeats: 300,
   },
@@ -40,7 +42,8 @@ const DUMMY_EVENTS = [
     location: "Pune, India",
     category: "Food & Drink",
     price: 300,
-    posterUrl: "https://placehold.co/300x200?text=Food",
+    posterUrl:
+      "https://media.istockphoto.com/id/1829241109/photo/enjoying-a-brunch-together.jpg?s=612x612&w=0&k=20&c=9awLLRMBLeiYsrXrkgzkoscVU_3RoVwl_HA-OT-srjQ=",
     organizer: "Foodie's Paradise",
     availableSeats: 1500,
   },
@@ -55,7 +58,8 @@ const DUMMY_EVENTS = [
     location: "Pune, India",
     category: "Workshop",
     price: 799,
-    posterUrl: "https://placehold.co/300x200?text=Workshop",
+    posterUrl:
+      "https://image-processor-storage.s3.us-west-2.amazonaws.com/images/3cf61c1011912a2173ea4dfa260f1108/halo-of-neon-ring-illuminated-in-the-stunning-landscape-of-yosemite.jpg",
     organizer: "DevMasters Academy",
     availableSeats: 40,
   },
@@ -70,7 +74,8 @@ const DUMMY_EVENTS = [
     location: "Pune, India",
     category: "Comedy",
     price: 499,
-    posterUrl: "https://placehold.co/300x200?text=Comedy",
+    posterUrl:
+      "https://www.shutterstock.com/image-vector/comedy-show-sign-on-dark-600nw-2480894647.jpg",
     organizer: "LOL Factory",
     availableSeats: 500,
   },

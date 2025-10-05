@@ -31,6 +31,21 @@ app.get("/api/events/search", (req, res) => {
   });
 });
 
+app.get("/api/events/:id", (req, res) => {
+  const { DUMMY_EVENTS } = eventsData;
+  const eventId = parseInt(req.params.id, 10);
+  const event = DUMMY_EVENTS.find((e) => e.id === eventId);
+  if (!event) {
+    return res.status(404).json({
+      success: false,
+    });
+  }
+  res.status(200).json({
+    success: true,
+    data: event,
+  });
+});
+
 app.listen(port, () => {
   console.log(`Server is running on port ${port}`);
 });

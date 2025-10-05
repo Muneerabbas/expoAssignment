@@ -7,12 +7,14 @@ import {
   StyleSheet,
   Touchable,
   TouchableOpacity,
+  RefreshControl,
 } from "react-native";
 import { useFonts } from "expo-font";
 import { StatusBar } from "expo-status-bar";
 import { SafeAreaView } from "react-native-safe-area-context";
 import Ionicons from "react-native-vector-icons/Ionicons";
 import { useRouter } from "expo-router";
+import { API_BASE_URL } from "../config.js";
 // const events = [
 //   {
 //     id: "1",
@@ -33,35 +35,34 @@ import { useRouter } from "expo-router";
 //     image: "https://placehold.co/300x200?text=TechFest",
 //   },
 // ];
-
-const EventCard = ({ item }) => (
-  <View style={styles.card}>
-    <Image
-      source={{
-        uri:
-          item.posterUrl ||
-          "https://img.freepik.com/free-photo/closeup-scarlet-macaw-from-side-view-scarlet-macaw-closeup-head_488145-3540.jpg?semt=ais_hybrid&w=740&q=80",
-      }}
-      style={styles.image}
-    />
-    <Text style={styles.title}>{item?.title}</Text>
-    <Text style={styles.text}>
-      {item?.date} · {item?.time}
-    </Text>
-    <Text style={styles.text}>{item?.location}</Text>
-    <Text style={styles.price}>₹{item?.price}</Text>
-  </View>
+// const router = useRouter();
+const EventCard = ({ item, onPress }) => (
+  <TouchableOpacity onPress={onPress}>
+    <View style={styles.card}>
+      <Image
+        source={{
+          uri: item.posterUrl,
+        }}
+        style={styles.image}
+      />
+      <Text style={styles.title}>{item?.title}</Text>
+      <Text style={styles.text}>
+        {item?.date} · {item?.time}
+      </Text>
+      <Text style={styles.text}>{item?.location}</Text>
+      <Text style={styles.price}>₹{item?.price}</Text>
+    </View>
+  </TouchableOpacity>
 );
 
 export default function Index() {
+  const [refreshing, setRefreshing] = useState(false);
   const router = useRouter();
   const [events, setEvents] = useState([]);
 
   const fetchEvents = async () => {
     try {
-      const response = await fetch(
-        "https://42edf75aa802.ngrok-free.app/api/events"
-      );
+      const response = await fetch(`${API_BASE_URL}/api/events`);
       const jsondata = await response.json();
       if (jsondata.success) {
         setEvents(jsondata.data);
@@ -95,17 +96,33 @@ export default function Index() {
             >
               <Ionicons name="search" size={24} color="#000" />
             </TouchableOpacity>
-            <TouchableOpacity
-              onPress={() => router.push("/screens/filterScreen")}
-            >
-              <Ionicons name="filter" size={24} color="#000" />
-            </TouchableOpacity>
+          
           </View>
         </View>
         <FlatList
           data={events}
           keyExtractor={(item) => item.id}
-          renderItem={({ item = {} }) => <EventCard item={item} />}
+          refreshControl={
+            <RefreshControl
+              refreshing={refreshing}
+              onRefresh={() => {
+                setEvents([]);
+
+                fetchEvents();
+              }}
+            />
+          }
+          renderItem={({ item = {} }) => (
+            <EventCard
+              item={item}
+              onPress={() =>
+                router.push({
+                  pathname: "/screens/detailsScreen",
+                  params: { id: item.id },
+                })
+              }
+            />
+          )}
           showsVerticalScrollIndicator={false}
         />
       </View>
